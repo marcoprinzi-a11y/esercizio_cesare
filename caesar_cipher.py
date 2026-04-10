@@ -12,6 +12,12 @@ def cesar_decrypt(text, shift):
             result += char
     return result
 
+def brute_force_decrypt(text):
+    lista_caratteri= []
+    for i in range (26):
+       lista_caratteri.append(cesar_decrypt(text,i))
+    return lista_caratteri
+
 
 def solve_level_1():
     # Hex decode semplice
@@ -94,18 +100,9 @@ def solve_level_10():
     # Base64 -> Cesare (brute force o deduzione)
     # Hint: la flag inizia sempre con 'flag{'
     b64_data = "pHSjnRW0lF9iW2AgIjXuHjXynP8jmtBpnDL5o2nrlQI="
-    # In questo caso i dati b64 decodificati non sono ASCII puliti,
-    #  approccio simile ai precedenti.
-    # Nota: Level 10 e 11 spesso richiedono l'analisi del file o manipolazione byte custom.
-    # Per brevità, assumiamo la decodifica corretta basata sui pattern CTF comuni:
-    raw_bytes = base64.b64decode(b64_data)
-    # Esempio di logica: XOR o shift sui bytes.
-    # Se interpretato come Cesare su stringa dopo b64:
-    try:
-        decoded = raw_bytes.decode('latin-1')
-        return "flag{c0mpl3x_tr4nsf0rm_succ3ss}"  # Esempio rappresentativo
-    except:
-        return "flag{base64_and_custom_rotation}"
+    lista=brute_force_decrypt( b64_data)
+    for i in lista:
+        riga_cesare = base64.b64decode(b64_data)
 
 
 def solve_level_11():
